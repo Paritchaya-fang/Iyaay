@@ -3,118 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brew & Brown - Table Reservation</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Brew & Brown Coffee</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar">
+    <nav class="navbar" style="transition: all 0.3s ease;">
         <div class="container nav-container">
             <div class="logo">Brew <span>&</span> Brown</div>
+            <div>
+                <a href="#menu" class="btn btn-outline" style="margin-right: 10px;">ดูเมนู</a>
+                <a href="booking.html" class="btn btn-primary">จองโต๊ะ</a>
+            </div>
         </div>
     </nav>
 
-    <!-- Main Content wrapper for Hero & Form -->
-    <main class="hero-section" style="background-image: url('file:///Users/fangfang/.gemini/antigravity/brain/842fc853-5bee-48d0-96d3-655342cfca67/coffee_hero_1782022429254.png');">
+    <!-- Hero Section -->
+    <header class="hero-section" style="background-image: url('file:///Users/fangfang/.gemini/antigravity/brain/842fc853-5bee-48d0-96d3-655342cfca67/coffee_hero_1782022429254.png'); height: 100vh;">
         <div class="hero-overlay"></div>
-        <div class="container content-container">
-            
-            <!-- Headline -->
-            <div class="hero-text">
-                <h1>จองโต๊ะล่วงหน้า<br>รับประกันที่นั่งสุดชิล</h1>
-                <p>สัมผัสบรรยากาศอบอุ่น กาแฟหอมกรุ่น และเบเกอรี่โฮมเมด สำรองที่นั่งล่วงหน้าเพื่อให้เราได้เตรียมการต้อนรับที่ดีที่สุดสำหรับคุณ</p>
-            </div>
-
-            <!-- Booking Form Card -->
-            <div class="booking-card">
-                <h2>Reservation</h2>
-                <form id="reservationForm">
-                    <div class="form-grid">
-                        <!-- Date -->
-                        <div class="form-group">
-                            <label for="bookingDate">วันที่จอง</label>
-                            <input type="date" id="bookingDate" class="form-control" required>
-                        </div>
-
-                        <!-- Time Slot -->
-                        <div class="form-group">
-                            <label for="timeSlot">รอบเวลา</label>
-                            <select id="timeSlot" class="form-control" required>
-                                <option value="" disabled selected>เลือกรอบเวลา</option>
-                                <option value="10:00 - 11:30 น.">10:00 - 11:30 น.</option>
-                                <option value="11:30 - 13:00 น.">11:30 - 13:00 น.</option>
-                                <option value="13:00 - 14:30 น.">13:00 - 14:30 น.</option>
-                                <option value="14:30 - 16:00 น.">14:30 - 16:00 น.</option>
-                                <option value="16:00 - 17:30 น.">16:00 - 17:30 น.</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Guests -->
-                    <div class="form-group">
-                        <label for="guests">จำนวนคน</label>
-                        <select id="guests" class="form-control" required>
-                            <option value="1">1 ท่าน</option>
-                            <option value="2" selected>2 ท่าน</option>
-                            <option value="3">3 ท่าน</option>
-                            <option value="4">4 ท่าน</option>
-                            <option value="5">5 ท่าน</option>
-                            <option value="6+">6 ท่านขึ้นไป</option>
-                        </select>
-                    </div>
-
-                    <!-- Name -->
-                    <div class="form-group">
-                        <label for="customerName">ชื่อ - นามสกุล</label>
-                        <input type="text" id="customerName" class="form-control" placeholder="ชื่อผู้จอง" required>
-                    </div>
-
-                    <!-- Phone -->
-                    <div class="form-group">
-                        <label for="phone">เบอร์โทรศัพท์</label>
-                        <input type="tel" id="phone" class="form-control" placeholder="08X-XXX-XXXX" pattern="[0-9]{9,10}" title="กรุณากรอกเบอร์โทรศัพท์ 9-10 หลัก" required>
-                    </div>
-
-                    <!-- Note -->
-                    <div class="form-group">
-                        <label for="note">คำขอพิเศษ (ถ้ามี)</label>
-                        <textarea id="note" class="form-control" rows="3" placeholder="เช่น ขอโต๊ะริมหน้าต่าง, เอาเก้าอี้เด็ก"></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" id="submitBtn">ยืนยันการจองโต๊ะ</button>
-                </form>
-                
-                <!-- Success Message -->
-                <div id="successMessage" class="success-message" style="display: none;">
-                    <svg viewBox="0 0 24 24" width="48" height="48" stroke="#8C5C38" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
-                    <h3>จองโต๊ะสำเร็จ!</h3>
-                    <div style="background: rgba(140, 92, 56, 0.1); padding: 1rem; border-radius: 10px; margin: 1rem 0;">
-                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-muted);">รหัสอ้างอิงของคุณคือ</p>
-                        <h4 id="refDisplay" style="margin: 0; font-size: 1.5rem; letter-spacing: 2px; color: var(--primary-color);"></h4>
-                    </div>
-                    <p>ระบบได้รับการจองของคุณแล้ว เราจะติดต่อกลับหากมีข้อสงสัยเพิ่มเติม</p>
-                    <button class="btn btn-outline" id="resetBtn" style="margin-top: 1rem;">จองคิวใหม่</button>
+        <div class="container content-container" style="justify-content: center; text-align: center;">
+            <div class="hero-text" style="max-width: 800px; margin: 0 auto;">
+                <h1 style="font-size: 4rem;">Brew & Brown</h1>
+                <p style="font-size: 1.5rem; margin-top: 20px;">สัมผัสบรรยากาศอบอุ่น กาแฟหอมกรุ่น และเบเกอรี่โฮมเมด</p>
+                <div style="margin-top: 40px;">
+                    <a href="booking.html" class="btn btn-primary" style="font-size: 1.2rem; padding: 15px 40px;">จองโต๊ะเลย (Book a Table)</a>
                 </div>
             </div>
-
         </div>
-    </main>
+    </header>
+
+    <!-- Menu Section -->
+    <section id="menu" style="padding: 80px 0; background-color: var(--bg-color);">
+        <div class="container">
+            <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 50px; font-size: 2.5rem; font-family: 'Outfit', sans-serif;">Signature Menu</h2>
+            
+            <div class="menu-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                
+                <!-- Menu 1 -->
+                <div class="menu-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; overflow: hidden; backdrop-filter: blur(10px); transition: transform 0.3s ease;">
+                    <img src="file:///Users/fangfang/.gemini/antigravity/brain/842fc853-5bee-48d0-96d3-655342cfca67/espresso_cup_1782022440798.png" alt="Espresso" style="width: 100%; height: 250px; object-fit: cover;">
+                    <div style="padding: 20px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px; font-family: 'Outfit', sans-serif;">Perfect Espresso</h3>
+                        <p style="color: var(--text-color);">เอสเพรสโซ่ช็อตเข้มข้น หอมกรุ่น ครีม่าเนียนนุ่ม สกัดจากเมล็ดกาแฟคั่วพิเศษ</p>
+                        <p style="margin-top: 15px; font-weight: bold; font-size: 1.2rem; color: var(--accent-color);">฿80</p>
+                    </div>
+                </div>
+
+                <!-- Menu 2 -->
+                <div class="menu-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; overflow: hidden; backdrop-filter: blur(10px); transition: transform 0.3s ease;">
+                    <img src="file:///Users/fangfang/.gemini/antigravity/brain/842fc853-5bee-48d0-96d3-655342cfca67/cappuccino_art_1782022452358.png" alt="Cappuccino" style="width: 100%; height: 250px; object-fit: cover;">
+                    <div style="padding: 20px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px; font-family: 'Outfit', sans-serif;">Artisan Cappuccino</h3>
+                        <p style="color: var(--text-color);">คาปูชิโน่ร้อน ฟองนมเนียนนุ่มพร้อมลวดลายลาเต้อาร์ตสวยงาม รสชาติละมุน</p>
+                        <p style="margin-top: 15px; font-weight: bold; font-size: 1.2rem; color: var(--accent-color);">฿95</p>
+                    </div>
+                </div>
+
+                <!-- Menu 3 -->
+                <div class="menu-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; overflow: hidden; backdrop-filter: blur(10px); transition: transform 0.3s ease;">
+                    <img src="file:///Users/fangfang/.gemini/antigravity/brain/842fc853-5bee-48d0-96d3-655342cfca67/iced_latte_1782022463909.png" alt="Iced Latte" style="width: 100%; height: 250px; object-fit: cover;">
+                    <div style="padding: 20px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px; font-family: 'Outfit', sans-serif;">Signature Iced Latte</h3>
+                        <p style="color: var(--text-color);">ลาเต้เย็นชื่นใจ ผสมผสานนมสดแท้และกาแฟช็อตเข้มข้นอย่างลงตัว</p>
+                        <p style="margin-top: 15px; font-weight: bold; font-size: 1.2rem; color: var(--accent-color);">฿110</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Brew & Brown Coffee. All rights reserved.</p>
-        </div>
+    <footer style="text-align: center; padding: 20px; background: rgba(0,0,0,0.5); color: var(--text-muted);">
+        <p>&copy; 2026 Brew & Brown Coffee. All rights reserved.</p>
     </footer>
 
-    <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
 </html>

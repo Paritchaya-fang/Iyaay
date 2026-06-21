@@ -3,210 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>จองโต๊ะ - Iyaay Coffee</title>
+    <title>Brew & Brown - Table Reservation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        .booking-section {
-            padding: 8rem 5% 5rem;
-            max-width: 800px;
-            margin: 0 auto;
-            min-height: 100vh;
-        }
-        .booking-card {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2.5rem;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        .form-control {
-            width: 100%;
-            padding: 1rem;
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            background: rgba(0, 0, 0, 0.2);
-            color: var(--text-main);
-            font-family: inherit;
-            font-size: 1rem;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            background: rgba(0, 0, 0, 0.4);
-        }
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-        select.form-control {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fefae0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1em;
-        }
-        select.form-control option {
-            background: var(--bg-color);
-            color: var(--text-main);
-        }
-        .slot-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
-        .slot-btn {
-            padding: 0.8rem;
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            background: rgba(255,255,255,0.05);
-            color: var(--text-main);
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s;
-        }
-        .slot-btn:hover:not(:disabled) {
-            background: rgba(255,255,255,0.1);
-        }
-        .slot-btn.selected {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
-        }
-        .slot-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: rgba(255,0,0,0.1);
-            text-decoration: line-through;
-        }
-        .submit-btn {
-            width: 100%;
-            margin-top: 1rem;
-        }
-        
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .modal-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
-        .modal-content {
-            background: var(--bg-color);
-            border: 1px solid var(--accent-color);
-            padding: 3rem;
-            border-radius: 24px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-        .modal-content h3 {
-            color: var(--accent-color);
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        .booking-ref {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            background: rgba(255,255,255,0.1);
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
-    <nav class="navbar scrolled">
-        <div class="logo">Iyaay <span>Coffee</span></div>
-        <a href="index.html" class="btn btn-outline">กลับหน้าหลัก</a>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">Brew <span>&</span> Brown</div>
+            <div>
+                <a href="index.html" class="btn btn-outline">หน้าแรก (Home)</a>
+            </div>
+        </div>
     </nav>
 
-    <section class="booking-section">
-        <div class="section-title">
-            <h2>จองโต๊ะล่วงหน้า</h2>
-            <p>กรุณากรอกข้อมูลเพื่อสำรองที่นั่ง (จองล่วงหน้าได้ 1-7 วัน)</p>
-        </div>
+    <!-- Main Content wrapper for Hero & Form -->
+    <main class="hero-section" style="background-image: url('file:///Users/fangfang/.gemini/antigravity/brain/842fc853-5bee-48d0-96d3-655342cfca67/coffee_hero_1782022429254.png');">
+        <div class="hero-overlay"></div>
+        <div class="container content-container">
+            
+            <!-- Headline -->
+            <div class="hero-text">
+                <h1>จองโต๊ะล่วงหน้า<br>รับประกันที่นั่งสุดชิล</h1>
+                <p>สัมผัสบรรยากาศอบอุ่น กาแฟหอมกรุ่น และเบเกอรี่โฮมเมด สำรองที่นั่งล่วงหน้าเพื่อให้เราได้เตรียมการต้อนรับที่ดีที่สุดสำหรับคุณ</p>
+            </div>
 
-        <div class="booking-card">
-            <form id="bookingForm">
-                <div class="form-group">
-                    <label for="name">ชื่อผู้จอง *</label>
-                    <input type="text" id="name" class="form-control" required placeholder="ชื่อ-นามสกุล">
-                </div>
-                <div class="form-group">
-                    <label for="phone">เบอร์โทรศัพท์ *</label>
-                    <input type="tel" id="phone" class="form-control" required placeholder="08X-XXX-XXXX">
-                </div>
-                <div class="form-group">
-                    <label for="pax">จำนวนคน *</label>
-                    <select id="pax" class="form-control" required>
-                        <option value="1">1 ท่าน</option>
-                        <option value="2" selected>2 ท่าน</option>
-                        <option value="3">3 ท่าน</option>
-                        <option value="4">4 ท่าน</option>
-                        <option value="5">5 ท่าน</option>
-                        <option value="6">6 ท่านขึ้นไป</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="date">วันที่ต้องการจอง *</label>
-                    <select id="date" class="form-control" required>
-                        <!-- Options generated by JS -->
-                    </select>
-                </div>
+            <!-- Booking Form Card -->
+            <div class="booking-card">
+                <h2>Reservation</h2>
+                <form id="reservationForm">
+                    <div class="form-grid">
+                        <!-- Date -->
+                        <div class="form-group">
+                            <label for="bookingDate">วันที่จอง</label>
+                            <input type="date" id="bookingDate" class="form-control" required>
+                        </div>
 
-                <div class="form-group">
-                    <label>เลือกรอบเวลา (Time Slot) *</label>
-                    <div class="slot-grid" id="timeSlots">
-                        <!-- Buttons generated by JS -->
+                        <!-- Time Slot -->
+                        <div class="form-group">
+                            <label for="timeSlot">รอบเวลา</label>
+                            <select id="timeSlot" class="form-control" required>
+                                <option value="" disabled selected>เลือกรอบเวลา</option>
+                                <option value="10:00 - 11:30 น.">10:00 - 11:30 น.</option>
+                                <option value="11:30 - 13:00 น.">11:30 - 13:00 น.</option>
+                                <option value="13:00 - 14:30 น.">13:00 - 14:30 น.</option>
+                                <option value="14:30 - 16:00 น.">14:30 - 16:00 น.</option>
+                                <option value="16:00 - 17:30 น.">16:00 - 17:30 น.</option>
+                            </select>
+                        </div>
                     </div>
-                    <input type="hidden" id="selectedSlot" required>
+
+                    <!-- Guests -->
+                    <div class="form-group">
+                        <label for="guests">จำนวนคน</label>
+                        <select id="guests" class="form-control" required>
+                            <option value="1">1 ท่าน</option>
+                            <option value="2" selected>2 ท่าน</option>
+                            <option value="3">3 ท่าน</option>
+                            <option value="4">4 ท่าน</option>
+                            <option value="5">5 ท่าน</option>
+                            <option value="6+">6 ท่านขึ้นไป</option>
+                        </select>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label for="customerName">ชื่อ - นามสกุล</label>
+                        <input type="text" id="customerName" class="form-control" placeholder="ชื่อผู้จอง" required>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label for="phone">เบอร์โทรศัพท์</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="08X-XXX-XXXX" pattern="[0-9]{9,10}" title="กรุณากรอกเบอร์โทรศัพท์ 9-10 หลัก" required>
+                    </div>
+
+                    <!-- Note -->
+                    <div class="form-group">
+                        <label for="note">คำขอพิเศษ (ถ้ามี)</label>
+                        <textarea id="note" class="form-control" rows="3" placeholder="เช่น ขอโต๊ะริมหน้าต่าง, เอาเก้าอี้เด็ก"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="submitBtn">ยืนยันการจองโต๊ะ</button>
+                </form>
+                
+                <!-- Success Message -->
+                <div id="successMessage" class="success-message" style="display: none;">
+                    <svg viewBox="0 0 24 24" width="48" height="48" stroke="#8C5C38" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <h3>จองโต๊ะสำเร็จ!</h3>
+                    <div style="background: rgba(140, 92, 56, 0.1); padding: 1rem; border-radius: 10px; margin: 1rem 0;">
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-muted);">รหัสอ้างอิงของคุณคือ</p>
+                        <h4 id="refDisplay" style="margin: 0; font-size: 1.5rem; letter-spacing: 2px; color: var(--primary-color);"></h4>
+                    </div>
+                    <p>ระบบได้รับการจองของคุณแล้ว เราจะติดต่อกลับหากมีข้อสงสัยเพิ่มเติม</p>
+                    <button class="btn btn-outline" id="resetBtn" style="margin-top: 1rem;">จองคิวใหม่</button>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="note">หมายเหตุ (Optional)</label>
-                    <textarea id="note" class="form-control" rows="3" placeholder="ความต้องการพิเศษ เช่น ต้องการเก้าอี้เด็ก"></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">ยืนยันการจอง</button>
-            </form>
         </div>
-    </section>
+    </main>
 
-    <!-- Success Modal -->
-    <div class="modal-overlay" id="successModal">
-        <div class="modal-content">
-            <h3>จองโต๊ะสำเร็จ!</h3>
-            <p>กรุณาแคปหน้าจอนี้เก็บไว้เป็นหลักฐาน</p>
-            <div class="booking-ref" id="refDisplay">IY-1234</div>
-            <p id="detailsDisplay" style="margin-bottom: 2rem; color: var(--text-muted);"></p>
-            <a href="index.html" class="btn btn-outline">กลับหน้าแรก</a>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Brew & Brown Coffee. All rights reserved.</p>
         </div>
-    </div>
+    </footer>
 
-    <script type="module" src="booking.js"></script>
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="booking.js"></script>
 </body>
 </html>

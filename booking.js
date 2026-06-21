@@ -1,145 +1,127 @@
-import { db } from './firebase-config.js';
-import { collection, addDoc, query, where, getDocs, Timestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-const MAX_CAPACITY_PER_SLOT = 5;
-const TIME_SLOTS = ["09:00 - 11:00", "11:00 - 13:00", "13:00 - 15:00", "15:00 - 17:00", "17:00 - 19:00"];
-
 document.addEventListener('DOMContentLoaded', () => {
-    const dateSelect = document.getElementById('date');
-    const timeSlotsContainer = document.getElementById('timeSlots');
-    const selectedSlotInput = document.getElementById('selectedSlot');
-    const form = document.getElementById('bookingForm');
-    const submitBtn = document.getElementById('submitBtn');
+    // 1. กำหนดค่า Supabase Project (ใส่ URL ที่ให้มา และรอใส่ Anon Key)
+    const SUPABASE_URL = 'https://aqmszxhqrtjagjwxztul.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxbXN6eGhxcnRqYWdqd3h6dHVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMTgwMjIsImV4cCI6MjA5NzU5NDAyMn0.Zkv-NHlUsRSHN1xYghgyXTduU0XgP2FQBShw_pf9xu0';
 
-    // 1. Populate Dates (1-7 days ahead)
+    
+    // สร้าง Client
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const MAX_CAPACITY = 5; // จำนวนโต๊ะสูงสุดต่อรอบ
+
+    const form = document.getElementById('reservationForm');
+    const successMessage = document.getElementById('successMessage');
+    const resetBtn = document.getElementById('resetBtn');
+    const dateInput = document.getElementById('bookingDate');
+    const timeSlotSelect = document.getElementById('timeSlot');
+    
+    // ตั้งค่า วันที่เริ่มต้นให้เป็นวันนี้
     const today = new Date();
-    for (let i = 1; i <= 7; i++) {
-        let nextDate = new Date();
-        nextDate.setDate(today.getDate() + i);
-        let dateString = nextDate.toISOString().split('T')[0]; // YYYY-MM-DD
-        let displayString = nextDate.toLocaleDateString('th-TH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        
-        let option = document.createElement('option');
-        option.value = dateString;
-        option.textContent = displayString;
-        dateSelect.appendChild(option);
-    }
+    const localDate = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+    dateInput.min = localDate;
+    dateInput.value = localDate;
 
-    // 2. Load and Check Availability
-    async function loadTimeSlots() {
-        const selectedDate = dateSelect.value;
-        timeSlotsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">กำลังโหลดคิวว่าง...</p>';
-        selectedSlotInput.value = '';
-        
-        try {
-            // Wait, if db is not initialized (no config), we should mock it or it will crash.
-            if(!db) {
-                renderMockSlots();
-                return;
+    // 2. ฟังก์ชันตรวจสอบคิวว่าง (เมื่อมีการเปลี่ยนวันที่)
+    async function checkAvailability() {
+        const selectedDate = dateInput.value;
+        if (!selectedDate) return;
+
+        // Reset all options to enabled first
+        Array.from(timeSlotSelect.options).forEach(opt => {
+            if (opt.value !== "") {
+                opt.disabled = false;
+                opt.text = opt.value; // Reset text
             }
-
-            const q = query(collection(db, "bookings"), where("date", "==", selectedDate), where("status", "!=", "Cancelled"));
-            const querySnapshot = await getDocs(q);
-            
-            let slotCounts = {};
-            TIME_SLOTS.forEach(slot => slotCounts[slot] = 0);
-
-            querySnapshot.forEach((doc) => {
-                let data = doc.data();
-                if (slotCounts[data.timeSlot] !== undefined) {
-                    slotCounts[data.timeSlot]++;
-                }
-            });
-
-            renderSlots(slotCounts);
-        } catch (error) {
-            console.error("Error fetching availability:", error);
-            // Fallback for demo without DB config
-            renderMockSlots();
-        }
-    }
-
-    function renderMockSlots() {
-        let mockCounts = {};
-        TIME_SLOTS.forEach(slot => mockCounts[slot] = Math.floor(Math.random() * 6)); // Random 0-5
-        renderSlots(mockCounts);
-    }
-
-    function renderSlots(slotCounts) {
-        timeSlotsContainer.innerHTML = '';
-        TIME_SLOTS.forEach(slot => {
-            let count = slotCounts[slot] || 0;
-            let isFull = count >= MAX_CAPACITY_PER_SLOT;
-
-            let btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'slot-btn';
-            btn.textContent = isFull ? `${slot} (เต็ม)` : slot;
-            btn.disabled = isFull;
-
-            btn.addEventListener('click', () => {
-                // Deselect others
-                document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                selectedSlotInput.value = slot;
-            });
-
-            timeSlotsContainer.appendChild(btn);
         });
-    }
 
-    dateSelect.addEventListener('change', loadTimeSlots);
-    // Initial load
-    loadTimeSlots();
-
-    // 3. Handle Form Submission
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        if (!selectedSlotInput.value) {
-            alert('กรุณาเลือกรอบเวลา (Time Slot)');
+        // ถ้ายังไม่ได้ใส่ API Key ให้ข้ามการเช็คไปก่อน
+        if (SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY') {
+            console.warn("ยังไม่ได้ใส่ Supabase Anon Key ระบบจะข้ามการเช็คคิวว่าง");
             return;
         }
 
-        const submitOriginalText = submitBtn.textContent;
-        submitBtn.textContent = 'กำลังทำรายการ...';
+        try {
+            // เรียกใช้ RPC function ที่เราสร้างไว้ใน Supabase
+            const { data, error } = await supabaseClient.rpc('get_booked_slots', {
+                p_date: selectedDate
+            });
+
+            if (error) throw error;
+
+            if (data && data.length > 0) {
+                data.forEach(slotData => {
+                    if (slotData.booked_count >= MAX_CAPACITY) {
+                        // หารอบเวลาที่ตรงกันแล้วปิดไม่ให้เลือก
+                        const option = Array.from(timeSlotSelect.options).find(opt => opt.value === slotData.slot_time);
+                        if (option) {
+                            option.disabled = true;
+                            option.text = `${slotData.slot_time} (เต็มแล้ว)`;
+                        }
+                    }
+                });
+            }
+        } catch (error) {
+            console.error("Error checking availability:", error);
+        }
+    }
+
+    // เช็คคิวว่างทุกครั้งที่เปลี่ยนวันที่
+    dateInput.addEventListener('change', checkAvailability);
+    checkAvailability(); // เช็คครั้งแรกตอนโหลดเว็บ
+
+    // 3. ฟังก์ชันบันทึกข้อมูลการจอง
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'กำลังบันทึกข้อมูล...';
         submitBtn.disabled = true;
 
         const bookingData = {
-            customerName: document.getElementById('name').value,
-            phone: document.getElementById('phone').value,
-            pax: parseInt(document.getElementById('pax').value),
-            date: document.getElementById('date').value,
-            timeSlot: selectedSlotInput.value,
-            note: document.getElementById('note').value,
-            status: 'Booked',
-            createdAt: Timestamp.now()
+            customer_name: document.getElementById('customerName').value,
+            phone_number: document.getElementById('phone').value,
+            reservation_date: document.getElementById('bookingDate').value,
+            time_slot: document.getElementById('timeSlot').value,
+            guest_count: parseInt(document.getElementById('guests').value),
+            special_requests: document.getElementById('note').value || null,
+            status: 'Booked' // Default
         };
 
-        try {
-            let bookingId = 'IY-' + Math.floor(1000 + Math.random() * 9000); // fallback ID
-            if (db) {
-                const docRef = await addDoc(collection(db, "bookings"), bookingData);
-                // Use last 4 chars of doc ID as reference
-                bookingId = 'IY-' + docRef.id.slice(-4).toUpperCase();
-            }
+        // สร้าง ID อ้างอิงขึ้นมาเองจาก Frontend เลยเพื่อไม่ให้ติดปัญหา RLS
+        const generatedId = crypto.randomUUID();
+        bookingData.id = generatedId;
 
-            // Show Success Modal
-            const modal = document.getElementById('successModal');
-            document.getElementById('refDisplay').textContent = bookingId;
-            document.getElementById('detailsDisplay').textContent = 
-                `วันที่: ${dateSelect.options[dateSelect.selectedIndex].text} | เวลา: ${bookingData.timeSlot} | จำนวน: ${bookingData.pax} ท่าน`;
-            
-            modal.classList.add('active');
-            form.reset();
-            selectedSlotInput.value = '';
+        try {
+            // บันทึกข้อมูลลงตาราง reservations (ไม่ต้อง select กลับมาแล้ว)
+            const { error } = await supabaseClient
+                .from('reservations')
+                .insert([bookingData]);
+
+            if (error) throw error;
+
+            // นำ ID ที่สร้างเองมาแสดง (ใช้ 8 ตัวแรกเพื่อให้จำง่ายขึ้น)
+            const shortId = generatedId.substring(0, 8).toUpperCase();
+            document.getElementById('refDisplay').textContent = shortId;
+
+            // แสดงหน้าจอสำเร็จ
+            form.style.display = 'none';
+            successMessage.style.display = 'block';
             
         } catch (error) {
-            console.error("Error adding document: ", error);
-            alert("เกิดข้อผิดพลาดในการจอง กรุณาลองใหม่อีกครั้ง");
+            console.error("Error submitting reservation:", error);
+            alert(`เกิดข้อผิดพลาดในการจองคิว: ${error.message || 'กรุณาลองใหม่อีกครั้ง'}`);
         } finally {
-            submitBtn.textContent = submitOriginalText;
+            submitBtn.textContent = originalText;
             submitBtn.disabled = false;
         }
+    });
+
+    // 4. รีเซ็ตฟอร์ม
+    resetBtn.addEventListener('click', () => {
+        form.reset();
+        dateInput.value = localDate;
+        checkAvailability(); // อัปเดตคิวใหม่
+        successMessage.style.display = 'none';
+        form.style.display = 'block';
     });
 });
