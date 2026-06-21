@@ -3,80 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brew & Brown Coffee</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Brew & Brown - Minimalist Coffee</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar" style="transition: all 0.3s ease;">
+    <nav class="navbar" id="navbar">
         <div class="container nav-container">
-            <div class="logo">Brew <span>&</span> Brown</div>
+            <div class="logo">Brew<span>&</span>Brown</div>
             <div>
-                <a href="#menu" class="btn btn-outline" style="margin-right: 10px;">ดูเมนู</a>
-                <a href="booking.html" class="btn btn-primary">จองโต๊ะ</a>
+                <a href="#menu" class="btn btn-outline" style="margin-right: 10px;">Menu</a>
+                <a href="booking.html" class="btn btn-primary">Reservation</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero-section" style="background-image: url('file:///Users/fangfang/.gemini/antigravity/brain/842fc853-5bee-48d0-96d3-655342cfca67/coffee_hero_1782022429254.png'); height: 100vh;">
+    <header class="hero-section hero-dark-overlay" style="background-image: url('assets/coffee_hero_1782022429254.png');">
         <div class="hero-overlay"></div>
-        <div class="container content-container" style="justify-content: center; text-align: center;">
-            <div class="hero-text" style="max-width: 800px; margin: 0 auto;">
-                <h1 style="font-size: 4rem;">Brew & Brown</h1>
-                <p style="font-size: 1.5rem; margin-top: 20px;">สัมผัสบรรยากาศอบอุ่น กาแฟหอมกรุ่น และเบเกอรี่โฮมเมด</p>
-                <div style="margin-top: 40px;">
-                    <a href="booking.html" class="btn btn-primary" style="font-size: 1.2rem; padding: 15px 40px;">จองโต๊ะเลย (Book a Table)</a>
-                </div>
-            </div>
+        <div class="container hero-content text-center" style="text-align: center; margin: 0 auto;">
+            <h1>Brew & Brown</h1>
+            <p style="font-size: 1.25rem; margin-bottom: 40px; font-weight: 300;">สัมผัสความอบอุ่นในทุกถ้วย<br>Crafted coffee & minimal space.</p>
+            <a href="booking.html" class="btn btn-primary" style="padding: 16px 48px; font-size: 1.1rem;">Book a Table</a>
         </div>
     </header>
 
     <!-- Menu Section -->
-    <section id="menu" style="padding: 80px 0; background-color: var(--bg-color);">
+    <section id="menu" class="menu-section">
         <div class="container">
-            <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 50px; font-size: 2.5rem; font-family: 'Outfit', sans-serif;">Signature Menu</h2>
+            <div class="section-title">
+                <span>Our Specialties</span>
+                <h2>Signature Menu</h2>
+            </div>
             
-            <div class="menu-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-                
+            <div class="menu-grid">
                 <!-- Menu 1 -->
-                <div class="menu-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; overflow: hidden; backdrop-filter: blur(10px); transition: transform 0.3s ease;">
-                    <img src="file:///Users/fangfang/.gemini/antigravity/brain/842fc853-5bee-48d0-96d3-655342cfca67/espresso_cup_1782022440798.png" alt="Espresso" style="width: 100%; height: 250px; object-fit: cover;">
-                    <div style="padding: 20px;">
-                        <h3 style="color: var(--primary-color); margin-bottom: 10px; font-family: 'Outfit', sans-serif;">Perfect Espresso</h3>
-                        <p style="color: var(--text-color);">เอสเพรสโซ่ช็อตเข้มข้น หอมกรุ่น ครีม่าเนียนนุ่ม สกัดจากเมล็ดกาแฟคั่วพิเศษ</p>
-                        <p style="margin-top: 15px; font-weight: bold; font-size: 1.2rem; color: var(--accent-color);">฿80</p>
+                <div class="menu-card">
+                    <img src="assets/espresso_cup_1782022440798.png" alt="Espresso" class="menu-image">
+                    <div class="menu-info">
+                        <h3>Perfect Espresso</h3>
+                        <p>เอสเพรสโซ่ช็อตเข้มข้น หอมกรุ่น ครีม่าเนียนนุ่ม สกัดจากเมล็ดกาแฟคั่วพิเศษ</p>
+                        <span class="menu-price">฿80</span>
                     </div>
                 </div>
 
                 <!-- Menu 2 -->
-                <div class="menu-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; overflow: hidden; backdrop-filter: blur(10px); transition: transform 0.3s ease;">
-                    <img src="file:///Users/fangfang/.gemini/antigravity/brain/842fc853-5bee-48d0-96d3-655342cfca67/cappuccino_art_1782022452358.png" alt="Cappuccino" style="width: 100%; height: 250px; object-fit: cover;">
-                    <div style="padding: 20px;">
-                        <h3 style="color: var(--primary-color); margin-bottom: 10px; font-family: 'Outfit', sans-serif;">Artisan Cappuccino</h3>
-                        <p style="color: var(--text-color);">คาปูชิโน่ร้อน ฟองนมเนียนนุ่มพร้อมลวดลายลาเต้อาร์ตสวยงาม รสชาติละมุน</p>
-                        <p style="margin-top: 15px; font-weight: bold; font-size: 1.2rem; color: var(--accent-color);">฿95</p>
+                <div class="menu-card">
+                    <img src="assets/cappuccino_art_1782022452358.png" alt="Cappuccino" class="menu-image">
+                    <div class="menu-info">
+                        <h3>Artisan Cappuccino</h3>
+                        <p>คาปูชิโน่ร้อน ฟองนมเนียนนุ่มพร้อมลวดลายลาเต้อาร์ตสวยงาม รสชาติละมุน</p>
+                        <span class="menu-price">฿95</span>
                     </div>
                 </div>
 
                 <!-- Menu 3 -->
-                <div class="menu-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; overflow: hidden; backdrop-filter: blur(10px); transition: transform 0.3s ease;">
-                    <img src="file:///Users/fangfang/.gemini/antigravity/brain/842fc853-5bee-48d0-96d3-655342cfca67/iced_latte_1782022463909.png" alt="Iced Latte" style="width: 100%; height: 250px; object-fit: cover;">
-                    <div style="padding: 20px;">
-                        <h3 style="color: var(--primary-color); margin-bottom: 10px; font-family: 'Outfit', sans-serif;">Signature Iced Latte</h3>
-                        <p style="color: var(--text-color);">ลาเต้เย็นชื่นใจ ผสมผสานนมสดแท้และกาแฟช็อตเข้มข้นอย่างลงตัว</p>
-                        <p style="margin-top: 15px; font-weight: bold; font-size: 1.2rem; color: var(--accent-color);">฿110</p>
+                <div class="menu-card">
+                    <img src="assets/iced_latte_1782022463909.png" alt="Iced Latte" class="menu-image">
+                    <div class="menu-info">
+                        <h3>Signature Iced Latte</h3>
+                        <p>ลาเต้เย็นชื่นใจ ผสมผสานนมสดแท้และกาแฟช็อตเข้มข้นอย่างลงตัว</p>
+                        <span class="menu-price">฿110</span>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer style="text-align: center; padding: 20px; background: rgba(0,0,0,0.5); color: var(--text-muted);">
-        <p>&copy; 2026 Brew & Brown Coffee. All rights reserved.</p>
+    <footer>
+        <p>&copy; 2026 Brew & Brown. Minimal Coffee Experience.</p>
     </footer>
 
     <script src="script.js"></script>
