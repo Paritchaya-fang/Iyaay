@@ -150,16 +150,20 @@
                 <!-- Dashboard Stats -->
                 <div class="dashboard-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
                     <div class="stat-card" style="padding: 20px; background: #FAFAF8; border-radius: 12px; border: 1px solid rgba(44,36,30,0.1);">
-                        <h4 style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">การจองทั้งหมด (Total)</h4>
-                        <h2 id="statTotal" style="color: var(--primary); font-size: 2.5rem; margin: 0;">0</h2>
+                        <h4 style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">การจองทั้งหมด (Bookings)</h4>
+                        <h2 style="color: var(--primary); font-size: 2.5rem; margin: 0;"><span id="statTotal">0</span> <span style="font-size: 1rem; color: var(--text-muted); font-weight: normal;">คิว</span></h2>
+                    </div>
+                    <div class="stat-card" style="padding: 20px; background: rgba(52, 152, 219, 0.05); border-radius: 12px; border: 1px solid rgba(52, 152, 219, 0.2);">
+                        <h4 style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">จำนวนแขก (Total Guests)</h4>
+                        <h2 style="color: #2980b9; font-size: 2.5rem; margin: 0;"><span id="statGuests">0</span> <span style="font-size: 1rem; color: var(--text-muted); font-weight: normal;">ท่าน</span></h2>
                     </div>
                     <div class="stat-card" style="padding: 20px; background: rgba(46, 204, 113, 0.05); border-radius: 12px; border: 1px solid rgba(46, 204, 113, 0.2);">
                         <h4 style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">ลูกค้ามาถึงแล้ว (Arrived)</h4>
-                        <h2 id="statArrived" style="color: #27ae60; font-size: 2.5rem; margin: 0;">0</h2>
+                        <h2 style="color: #27ae60; font-size: 2.5rem; margin: 0;"><span id="statArrived">0</span> <span style="font-size: 1rem; color: var(--text-muted); font-weight: normal;">คิว</span></h2>
                     </div>
                     <div class="stat-card" style="padding: 20px; background: rgba(243, 156, 18, 0.05); border-radius: 12px; border: 1px solid rgba(243, 156, 18, 0.2);">
                         <h4 style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">กำลังรอ (Waiting)</h4>
-                        <h2 id="statWaiting" style="color: #e67e22; font-size: 2.5rem; margin: 0;">0</h2>
+                        <h2 style="color: #e67e22; font-size: 2.5rem; margin: 0;"><span id="statWaiting">0</span> <span style="font-size: 1rem; color: var(--text-muted); font-weight: normal;">คิว</span></h2>
                     </div>
                 </div>
                 

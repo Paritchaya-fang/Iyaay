@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Stats Elements
     const statTotal = document.getElementById('statTotal');
+    const statGuests = document.getElementById('statGuests');
     const statArrived = document.getElementById('statArrived');
     const statWaiting = document.getElementById('statWaiting');
 
@@ -103,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.length === 0) {
             tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">ยังไม่มีข้อมูลการจองในวันนี้</td></tr>';
             statTotal.textContent = '0';
+            statGuests.textContent = '0';
             statArrived.textContent = '0';
             statWaiting.textContent = '0';
             return;
@@ -112,6 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Update Dashboard Stats
         statTotal.textContent = data.length;
+        
+        // คำนวณจำนวนแขกรวม (แปลงจาก 6+ เป็น 6 ชั่วคราวในการคำนวณ)
+        let totalGuests = data.reduce((sum, row) => {
+            let count = parseInt(row.guest_count) || 0;
+            return sum + count;
+        }, 0);
+        statGuests.textContent = totalGuests;
+
         statArrived.textContent = data.filter(d => d.status === 'Arrived').length;
         statWaiting.textContent = data.filter(d => d.status === 'Booked').length;
     }
