@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableBody = document.getElementById('reservationTableBody');
     const loginError = document.getElementById('loginError');
 
+    // Stats Elements
+    const statTotal = document.getElementById('statTotal');
+    const statArrived = document.getElementById('statArrived');
+    const statWaiting = document.getElementById('statWaiting');
+
     // ตั้งค่า วันที่เริ่มต้นให้เป็นวันนี้
     const today = new Date();
     const localDate = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
@@ -97,10 +102,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (data.length === 0) {
             tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">ยังไม่มีข้อมูลการจองในวันนี้</td></tr>';
+            statTotal.textContent = '0';
+            statArrived.textContent = '0';
+            statWaiting.textContent = '0';
             return;
         }
 
         renderTable(data);
+
+        // Update Dashboard Stats
+        statTotal.textContent = data.length;
+        statArrived.textContent = data.filter(d => d.status === 'Arrived').length;
+        statWaiting.textContent = data.filter(d => d.status === 'Booked').length;
     }
 
     // โหลดคิวใหม่ทุกครั้งที่แอดมินเปลี่ยนวันที่
