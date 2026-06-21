@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const logoutBtn = document.getElementById('logoutBtn');
     const filterDate = document.getElementById('filterDate');
+    const filterMonth = document.getElementById('filterMonth');
+    const modeDaily = document.getElementById('modeDaily');
+    const modeMonthly = document.getElementById('modeMonthly');
+    const filterDailyWrapper = document.getElementById('filterDailyWrapper');
+    const filterMonthlyWrapper = document.getElementById('filterMonthlyWrapper');
     const tableBody = document.getElementById('reservationTableBody');
     const loginError = document.getElementById('loginError');
 
@@ -20,10 +25,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const statArrived = document.getElementById('statArrived');
     const statWaiting = document.getElementById('statWaiting');
 
+    let currentMode = 'daily';
+
     // ตั้งค่า วันที่เริ่มต้นให้เป็นวันนี้
     const today = new Date();
     const localDate = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+    const localMonth = localDate.substring(0, 7); // "YYYY-MM"
     filterDate.value = localDate;
+    filterMonth.value = localMonth;
+
+    // Mode Toggle Handlers
+    modeDaily.addEventListener('click', () => {
+        currentMode = 'daily';
+        modeDaily.classList.replace('btn-outline', 'btn-primary');
+        modeMonthly.classList.replace('btn-primary', 'btn-outline');
+        filterDailyWrapper.classList.remove('hidden');
+        filterMonthlyWrapper.classList.add('hidden');
+        fetchReservations();
+    });
+
+    modeMonthly.addEventListener('click', () => {
+        currentMode = 'monthly';
+        modeMonthly.classList.replace('btn-outline', 'btn-primary');
+        modeDaily.classList.replace('btn-primary', 'btn-outline');
+        filterMonthlyWrapper.classList.remove('hidden');
+        filterDailyWrapper.classList.add('hidden');
+        fetchReservations();
+    });
 
     // เช็คสถานะการล็อกอินตอนเปิดหน้าเว็บ
     checkUser();
@@ -84,16 +112,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. ดึงข้อมูลตารางการจองจาก Database
     async function fetchReservations() {
-        const date = filterDate.value;
         tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">กำลังโหลดข้อมูล...</td></tr>';
 
-        // ดึงข้อมูลทั้งหมดในวันที่เลือก เรียงตามเวลา
-        const { data, error } = await supabase
-            .from('reservations')
-            .select('*')
-            .eq('reservation_date', date)
-            .order('time_slot', { ascending: true })
-            .order('created_at', { ascending: true });
+        let query = supabase.from('reservations').select('*');
+
+        if (currentMode === 'daily') {
+            query = query.eq('reservation_date', filterDate.value);
+        } else {
+            // Monthly mode
+            const yearMonth = filterMonth.value; // "YYYY-MM"
+            if (!yearMonth) return;
+            
+            // หาวันแรกและวันสุดท้ายของเดือน
+            const [year, month] = yearMonth.split('-');
+            const startDate = `${yearMonth}-01`;
+            // หาจำนวนวันในเดือนนั้นโดยใช้วันที่ 0 ของเดือนถัดไป
+            const endDateObj = new Date(year, month, 0); 
+            // format endDate
+            const endDay = String(endDateObj.getDate()).padStart(2, '0');
+            const endDate = `${yearMonth}-${endDay}`;
+            
+            query = query.gte('reservation_date', startDate).lte('reservation_date', endDate);
+        }
+
+        query = query.order('reservation_date', { ascending: true })
+                     .order('time_slot', { ascending: true })
+                     .order('created_at', { ascending: true });
+
+        const { data, error } = await query;
 
         if (error) {
             console.error(error);
@@ -102,7 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (data.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">ยังไม่มีข้อมูลการจองในวันนี้</td></tr>';
+            let msg = currentMode === 'daily' ? 'ยังไม่มีข้อมูลการจองในวันนี้' : 'ยังไม่มีข้อมูลการจองในเดือนนี้';
+            tableBody.innerHTML = `<tr><td colspan="8" style="text-align:center;">${msg}</td></tr>`;
             statTotal.textContent = '0';
             statGuests.textContent = '0';
             statArrived.textContent = '0';
@@ -126,8 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
         statWaiting.textContent = data.filter(d => d.status === 'Booked').length;
     }
 
-    // โหลดคิวใหม่ทุกครั้งที่แอดมินเปลี่ยนวันที่
+    // โหลดคิวใหม่ทุกครั้งที่แอดมินเปลี่ยนวันที่หรือเดือน
     filterDate.addEventListener('change', fetchReservations);
+    filterMonth.addEventListener('change', fetchReservations);
 
     // 5. Render ข้อมูลลงตาราง
     function renderTable(data) {
@@ -147,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><strong style="color:var(--primary-color);">${shortId}</strong></td>
                 <td>${row.customer_name}</td>
                 <td>${row.phone_number}</td>
-                <td>${row.time_slot}</td>
+                <td>${row.reservation_date} ${row.time_slot}</td>
                 <td>${row.guest_count} ท่าน</td>
                 <td>${row.special_requests || '-'}</td>
                 <td><span class="status-badge ${statusClass}">${statusThai}</span></td>

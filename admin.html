@@ -168,9 +168,22 @@
                     </div>
                 </div>
                 
-                <div class="form-group" style="max-width: 300px;">
-                    <label>Filter by Date (เลือกวันที่)</label>
-                    <input type="date" id="filterDate" class="form-control">
+                <div class="form-group" style="max-width: 400px;">
+                    <label style="margin-bottom: 10px; display: block;">View Mode (รูปแบบการดูข้อมูล)</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <button id="modeDaily" class="btn btn-primary" style="flex: 1; padding: 8px;">รายวัน (Daily)</button>
+                        <button id="modeMonthly" class="btn btn-outline" style="flex: 1; padding: 8px;">รายเดือน (Monthly)</button>
+                    </div>
+                    
+                    <div id="filterDailyWrapper">
+                        <label>เลือกวันที่ (Select Date)</label>
+                        <input type="date" id="filterDate" class="form-control">
+                    </div>
+                    
+                    <div id="filterMonthlyWrapper" class="hidden">
+                        <label>เลือกเดือน (Select Month)</label>
+                        <input type="month" id="filterMonth" class="form-control">
+                    </div>
                 </div>
 
                 <div class="table-wrapper">
